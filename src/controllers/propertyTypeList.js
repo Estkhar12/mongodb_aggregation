@@ -24,10 +24,6 @@ const searchPropertyList = async (req, res) => {
       const startingDate = new Date(startDate);
       const endingDate = new Date(endDate);
 
-      if (isNaN(startingDate) || isNaN(endingDate)) {
-        return res.status(400).json({ error: "Invalid date format!" });
-      }
-
       if (endingDate < startingDate) {
         return res
           .status(400)
@@ -38,7 +34,7 @@ const searchPropertyList = async (req, res) => {
         Math.abs(endingDate - startingDate) / (1000 * 60 * 60 * 24)
       );
     }
-    
+
     let query = {};
 
     if (property_type) {
@@ -63,6 +59,7 @@ const searchPropertyList = async (req, res) => {
 
     const totalProperties = await Property.countDocuments(query);
     const totalPages = Math.ceil(totalProperties / limit);
+
     const aggregateProperties = await Property.aggregate([
       { $match: query },
       { $sort: { [sort]: 1 } },

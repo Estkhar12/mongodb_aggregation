@@ -201,7 +201,7 @@ const propertySchema = new mongoose.Schema(
           type: String,
         },
         coordinates: {
-          type: [Number],
+          type: Number,
         },
         is_location_exact: {
           type: Boolean,

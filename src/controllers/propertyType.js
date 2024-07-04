@@ -1,38 +1,31 @@
 import Property from "../models/propertyList.js";
 
-
 const propertyTypes = async (req, res) => {
   try {
     const { name, property_type, page, pageSize, limit } = req.query;
 
-    // Convert page, pageSize, and limit to integers and set default values if necessary
     const pageNumber = parseInt(page, 10) || 1;
     const pageSizeNumber = parseInt(pageSize, 10) || 10;
     const limitNumber = parseInt(limit, 10);
 
-    // If a limit is specified in the query, use it; otherwise, use pageSizeNumber
     const finalLimit = limitNumber > 0 ? limitNumber : pageSizeNumber;
 
-    // Initialize matchQuery as an empty object
     let matchQuery = {};
 
-    // Conditionally add filters to matchQuery
     if (name) {
       matchQuery.name = { $regex: name, $options: "i" };
     }
-
+    
     if (property_type) {
       matchQuery.property_type = property_type;
     }
-
-    // If no search criteria are provided, set default limit to 50
+    
     const defaultLimit = !name && !property_type ? 50 : finalLimit;
-
-
 
     const aggregationPipeline = await Property.aggregate([
       { $match: matchQuery },
-      { $sort: { property_type: 1 } }, // Sort by property_type ascending
+      { $sort: { property_type: 1 } },
+
       {
         $facet: {
           metadata: [{ $count: "totalResults" }],
@@ -56,7 +49,7 @@ const propertyTypes = async (req, res) => {
         },
       },
     ]);
-    
+
     if (
       !aggregationPipeline ||
       aggregationPipeline.length === 0 ||

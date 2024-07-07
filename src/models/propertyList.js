@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const propertySchema = new mongoose.Schema(
   {
-    _id: {
-      type: String,
-      required: true,
-      unique: true,
-    },
+    // _id: {
+    //   type: String,
+    //   required: true,
+    //   unique: true,
+    // },
     listing_url: {
       type: String,
       required: true,

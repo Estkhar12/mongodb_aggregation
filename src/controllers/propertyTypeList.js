@@ -4,7 +4,9 @@ import Property from "../models/propertyList.js";
 // Also add search for name, pagination and sorting in ascending order.
 // Add start date, end date and accomodation filter to previous API
 
+
 const searchPropertyList = async (req, res) => {
+  console.log(req.query)
   try {
     const {
       pageNo = 1,
@@ -39,7 +41,7 @@ const searchPropertyList = async (req, res) => {
 
     if (property_type) {
       query.property_type = property_type;
-    }
+    }    
 
     if (name) {
       query.name = new RegExp(name, "i");
@@ -76,7 +78,7 @@ const searchPropertyList = async (req, res) => {
         },
       },
     ]);
-
+    
     return res.status(200).json({
       totalProperties,
       totalPages,

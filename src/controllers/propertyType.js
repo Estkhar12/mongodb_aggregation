@@ -9,13 +9,12 @@ const propertyTypes = async (req, res) => {
     const limitNumber = parseInt(limit, 10);
 
     const finalLimit = limitNumber > 0 ? limitNumber : pageSizeNumber;
-
+    
     let matchQuery = {};
 
     if (name) {
       matchQuery.name = { $regex: name, $options: "i" };
     }
-    
     if (property_type) {
       matchQuery.property_type = property_type;
     }
